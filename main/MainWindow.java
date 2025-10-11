@@ -1,14 +1,14 @@
 package main;
 
-import input.SelectAlgo;
 import algorithms.*;
+import input.SelectAlgo;
 import java.awt.*;
 import javax.swing.*;
 import static misc.UIConstants.*;
 
 public class MainWindow extends JFrame {
     
-    ImageIcon cpuIcon = new ImageIcon("src/assets/cpu.png");
+    ImageIcon cpuIcon = new ImageIcon("src\\assets\\cpu.png");
     JPanel top = new JPanel();
     JPanel bottom = new JPanel();
     JPanel inputPanel = new JPanel();
@@ -16,9 +16,9 @@ public class MainWindow extends JFrame {
     CardLayout window = new CardLayout();
     Welcome welcome = new Welcome(this);
     SelectAlgo selectAlgo = new SelectAlgo(this);
-    Fcfs fcfs = new Fcfs();
-    Sjn sjn = new Sjn();
-    Rr rr = new Rr();
+    Fcfs fcfs = new Fcfs(this);
+    Sjn sjn = new Sjn(this);
+    Rr rr = new Rr(this);
     
     public MainWindow(){
         top.setBackground(PANEL_COLOR);
@@ -36,14 +36,17 @@ public class MainWindow extends JFrame {
         bottom.setPreferredSize(BOTTOM_PANEL_SIZE);
         
         top.add(selectAlgo);
-        bottom.add(fcfs, "fcfs");
-        bottom.add(sjn, "sjn");
-        bottom.add(rr, "rr");
+        bottom.add(fcfs.displayInput(), "fcfsInput");
+        bottom.add(sjn.displayInput(), "sjnInput");
+        bottom.add(rr.displayInput(), "rrInput");
         inputPanel.add(top, BorderLayout.NORTH);
         inputPanel.add(bottom, BorderLayout.CENTER);
-
+        
         add(welcome, "welcome");
         add(inputPanel, "input");
+        add(fcfs.displayOutput(), "fcfsOutput");
+        add(sjn.displayOutput(), "sjnOutput");
+        add(rr.displayOutput(), "rrOutput");
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
@@ -51,9 +54,9 @@ public class MainWindow extends JFrame {
     
     public void showInputField(int cardNum){
         switch(cardNum){
-            case 0: inputField.show(bottom,"fcfs"); break;
-            case 1: inputField.show(bottom,"sjn"); break;
-            case 2: inputField.show(bottom,"rr"); break;
+            case 0: inputField.show(bottom,"fcfsInput"); break;
+            case 1: inputField.show(bottom,"sjnInput"); break;
+            case 2: inputField.show(bottom,"rrInput"); break;
         }
     }
     public void showWindow(String windowName){

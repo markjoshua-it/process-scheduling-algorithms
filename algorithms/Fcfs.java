@@ -1,26 +1,33 @@
 package algorithms;
 
 import input.*;
+import java.awt.*;
 import javax.swing.*;
+import main.MainWindow;
+import misc.Title;
 import static misc.UIConstants.*;
 
-public class Fcfs extends JPanel {
-    
+public class Fcfs {
+    MainWindow mainWindow;
     ArrivalTimeInput arrivalTimeInput = new ArrivalTimeInput(); 
     BurstTimeInput burstTimeInput = new BurstTimeInput(); 
     SolveButton solveButton = new SolveButton();
     private String[] arrivalTimeStr;
     private String[] burstTimeStr;
+    private boolean isCorrectInput = true;
     
-    public Fcfs(){
-        setBackground(PANEL_COLOR);
-        setPreferredSize(BOTTOM_PANEL_SIZE);
-        add(arrivalTimeInput);
-        add(burstTimeInput);
-        add(solveButton);
-        validateInput();
+    public Fcfs(MainWindow mainWindow){ 
+        this.mainWindow = mainWindow; 
     }
-    public void validateInput(){
+
+    public JPanel displayInput(){
+        JPanel inputUI = new JPanel();
+        inputUI.setBackground(PANEL_COLOR);
+        inputUI.setPreferredSize(BOTTOM_PANEL_SIZE);
+        inputUI.add(arrivalTimeInput);
+        inputUI.add(burstTimeInput);
+        inputUI.add(solveButton);
+
         solveButton.solveButton.addActionListener(e -> {
             arrivalTimeStr = arrivalTimeInput.getArrivalTime();
             burstTimeStr = burstTimeInput.getBurstTime();
@@ -31,25 +38,36 @@ public class Fcfs extends JPanel {
                 burstTimeStr.length==0 || 
                 arrivalTime.length != burstTime.length)
             {
-                JOptionPane.showMessageDialog(null, "Invalid Input/ fcfs", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(mainWindow, "Invalid Input/ fcfs", "Error", JOptionPane.ERROR_MESSAGE);
+                isCorrectInput = false;
             } else {
                 for(int i = 0; i < arrivalTimeStr.length; i++){
                     try {
                         arrivalTime[i] = Integer.parseInt(arrivalTimeStr[i]);
                         burstTime[i] = Integer.parseInt(burstTimeStr[i]);
                     } catch (NumberFormatException err) {
-                        JOptionPane.showMessageDialog(null, "Can't contain letter/s", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(mainWindow, "Can't contain letter/s", "Error", JOptionPane.ERROR_MESSAGE);
+                        isCorrectInput = false;
                         break;
                     }
                 }
-                
-                solveFcfs(arrivalTime, burstTime);
             }
+            
+            if(isCorrectInput) { mainWindow.showWindow("fcfsOutput"); }
         });
+
+        return inputUI;
     }
-    
-    public void solveFcfs(int[] arrvivalTime, int[] burstTime){
-        // solving part
-        // to do
+
+    public JPanel displayOutput(){
+        JPanel outputUI = new JPanel();
+        GridBagConstraints gbc = new GridBagConstraints();
+        outputUI.setLayout(new GridLayout());
+
+        gbc.gridx=0; gbc.gridy=0;
+        outputUI.add(new Title("- FCFS -"), gbc);
+        outputUI.setBackground(PANEL_COLOR);
+        outputUI.setPreferredSize(PANEL_SIZE);
+        return outputUI;
     }
 }

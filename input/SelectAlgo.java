@@ -20,11 +20,11 @@ public class SelectAlgo extends JPanel {
     
     public SelectAlgo(MainWindow mainWindow){    
         setBackground(PANEL_COLOR);
-        gbc.gridx=0; gbc.gridy=1;
+        setLayout(gridBagLayout);
+        gbc.gridx=0; gbc.gridy=0;
         add(title, gbc);
         algoChoicesBox.setFont(INPUT_FONT);
         algoChoicesBox.setBackground(INPUT_FIELD_COLOR);
-        setLayout(gridBagLayout);
         gbc.insets = new Insets(25, 0, 0, 0);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx=0; gbc.gridy=1;
