@@ -1,6 +1,6 @@
 package main;
 
-import algorithms.*;
+import ui.*;
 import input.SelectAlgo;
 import java.awt.*;
 import javax.swing.*;
@@ -26,6 +26,7 @@ public class MainWindow extends JFrame {
         setTitle("CPU Scheduling Simulator");
         setIconImage(cpuIcon.getImage());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setBackground(Color.BLUE);
         setResizable(false);
         setLayout(window);
         
@@ -44,7 +45,7 @@ public class MainWindow extends JFrame {
         
         add(welcome, "welcome");
         add(inputPanel, "input");
-        add(fcfs.displayOutput(), "fcfsOutput");
+//        add(fcfs.displayOutput(), "fcfsOutput");
         add(sjn.displayOutput(), "sjnOutput");
         add(rr.displayOutput(), "rrOutput");
         pack();
@@ -58,7 +59,7 @@ public class MainWindow extends JFrame {
             case 1: inputField.show(bottom,"sjnInput"); break;
             case 2: inputField.show(bottom,"rrInput"); break;
         }
-    }
+    }   
     public void showWindow(String windowName){
         window.show(getContentPane(), windowName);
     }

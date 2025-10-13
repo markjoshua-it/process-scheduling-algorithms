@@ -1,4 +1,4 @@
-package algorithms;
+package ui;
 
 import input.*;
 import java.awt.*;
@@ -18,7 +18,6 @@ public class Rr {
     private String[] burstTimeStr;
     private String[] timeQuantumStr;
     private int timeQuantum;
-    private boolean isCorrectInput = true;
     
     public Rr(MainWindow mainWindow){
         this.mainWindow = mainWindow;
@@ -39,6 +38,8 @@ public class Rr {
             timeQuantumStr = timeQuantumInput.getTimeQuantum();
             int[] arrivalTime = new int[arrivalTimeStr.length];
             int[] burstTime = new int[burstTimeStr.length];
+            boolean isCorrectInput = true;
+            
             if(arrivalTimeInput.isEmpty() || 
                burstTimeInput.isEmpty() || 
                arrivalTimeStr.length!=burstTimeStr.length || 
@@ -62,7 +63,7 @@ public class Rr {
                 try {
                     timeQuantum = Integer.parseInt(timeQuantumStr[0]);
                 } catch (NumberFormatException err) {
-                    JOptionPane.showMessageDialog(null, "Can't contain letter/s TQ", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(mainWindow, "Can't contain letter/s TQ", "Error", JOptionPane.ERROR_MESSAGE);
                     isCorrectInput = false;
                 }
             }

@@ -15,7 +15,7 @@ public class Title extends JPanel {
         JLabel label = new JLabel(title);
         label.setBackground(PANEL_COLOR);
         label.setFont(TITLE_FONT);
-        gbc.insets = new Insets(50, 0, 0, 0);
+        gbc.insets = new Insets(30, 0, 0, 0);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1;
         gbc.weighty = 1;
