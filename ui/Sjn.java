@@ -4,16 +4,21 @@ import input.*;
 import java.awt.*;
 import javax.swing.*;
 import main.MainWindow;
+import main.Scheduler;
 import misc.Title;
 import static misc.UIConstants.*;
 
 public class Sjn {
     MainWindow mainWindow;
+    Scheduler schedule;
+    Output output;
     ArrivalTimeInput arrivalTimeInput = new ArrivalTimeInput(); 
     BurstTimeInput burstTimeInput = new BurstTimeInput(); 
     SolveButton solveButton = new SolveButton();
     private String[] arrivalTimeStr;
     private String[] burstTimeStr;
+    private int[] arrivalTime;
+    private int[] burstTime;
     
     public Sjn(MainWindow mainWindow){
         this.mainWindow = mainWindow;
@@ -30,8 +35,8 @@ public class Sjn {
         solveButton.solveButton.addActionListener(e -> {
             arrivalTimeStr = arrivalTimeInput.getArrivalTime();
             burstTimeStr = burstTimeInput.getBurstTime();
-            int[] arrivalTime = new int[arrivalTimeStr.length];
-            int[] burstTime = new int[burstTimeStr.length];
+            arrivalTime = new int[arrivalTimeStr.length];
+            burstTime = new int[burstTimeStr.length];
             boolean isCorrectInput = true;
 
             if(arrivalTimeInput.isEmpty() || 
@@ -46,26 +51,34 @@ public class Sjn {
                         arrivalTime[i] = Integer.parseInt(arrivalTimeStr[i]);
                         burstTime[i] = Integer.parseInt(burstTimeStr[i]);
                     } catch (NumberFormatException err) {
-                        JOptionPane.showMessageDialog(mainWindow, "Can't contain letter/s", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(mainWindow, "Invalid input!", "Error", JOptionPane.ERROR_MESSAGE);
                         isCorrectInput = false;
                         break;
                     }
                 }
             } 
 
-            if(isCorrectInput) { mainWindow.showWindow("sjnOutput"); }
+            if(isCorrectInput) { 
+                schedule = new Scheduler(arrivalTime, burstTime, "sjn");
+                mainWindow.add(displayOutput(), "sjnOutput");
+                mainWindow.showWindow("sjnOutput"); 
+            }
         });
 
         return inputUI;
     }
 
     public JPanel displayOutput(){
+        BottomButton bottomButton = new BottomButton(mainWindow);
         JPanel outputUI = new JPanel();
-        GridBagConstraints gbc = new GridBagConstraints();
-        outputUI.setLayout(new GridLayout());
+        outputUI.setLayout(new BorderLayout());
         
-        gbc.gridx=0; gbc.gridy=0;
-        outputUI.add(new Title("- SJN -"), gbc);
+        output = new Output(schedule);
+        
+        outputUI.add(output.ganttChart(), BorderLayout.NORTH);
+        outputUI.add(output.table(TITLE_1), BorderLayout.CENTER);
+        outputUI.add(bottomButton, BorderLayout.SOUTH);
+        
         outputUI.setBackground(PANEL_COLOR);
         outputUI.setPreferredSize(PANEL_SIZE);
         return outputUI;

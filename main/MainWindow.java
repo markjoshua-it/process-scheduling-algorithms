@@ -29,7 +29,7 @@ public class MainWindow extends JFrame {
         getContentPane().setBackground(Color.BLUE);
         setResizable(false);
         setLayout(window);
-        
+            
         inputPanel.setLayout(new BorderLayout());
         inputPanel.setBackground(PANEL_COLOR);
         
@@ -45,9 +45,7 @@ public class MainWindow extends JFrame {
         
         add(welcome, "welcome");
         add(inputPanel, "input");
-//        add(fcfs.displayOutput(), "fcfsOutput");
-        add(sjn.displayOutput(), "sjnOutput");
-        add(rr.displayOutput(), "rrOutput");
+        
         pack();
         setLocationRelativeTo(null);
         setVisible(true);

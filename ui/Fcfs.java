@@ -21,7 +21,7 @@ public class Fcfs {
     public Fcfs(MainWindow mainWindow){ 
         this.mainWindow = mainWindow; 
     }
-
+    
     public JPanel displayInput(){
         JPanel inputUI = new JPanel();
         inputUI.setBackground(PANEL_COLOR);
@@ -41,7 +41,7 @@ public class Fcfs {
                 burstTimeStr.length==0 || 
                 arrivalTime.length != burstTime.length)
             {
-                JOptionPane.showMessageDialog(mainWindow, "Invalid Input/ fcfs", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(mainWindow, "Invalid input!", "Error", JOptionPane.ERROR_MESSAGE);
                 isCorrectInput = false;
             } else {
                 for(int i = 0; i < arrivalTimeStr.length; i++){
@@ -49,7 +49,7 @@ public class Fcfs {
                         arrivalTime[i] = Integer.parseInt(arrivalTimeStr[i]);
                         burstTime[i] = Integer.parseInt(burstTimeStr[i]);
                     } catch (NumberFormatException err) {
-                        JOptionPane.showMessageDialog(mainWindow, "Can't contain letter/s", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(mainWindow, "Invalid input!", "Error", JOptionPane.ERROR_MESSAGE);
                         isCorrectInput = false;
                         break;
                     }
@@ -57,7 +57,7 @@ public class Fcfs {
             }
             
             if(isCorrectInput) { 
-                schedule = new Scheduler(arrivalTime, burstTime);
+                schedule = new Scheduler(arrivalTime, burstTime, "fcfs");
                 mainWindow.add(displayOutput(), "fcfsOutput");
                 mainWindow.showWindow("fcfsOutput"); 
             }
@@ -71,7 +71,6 @@ public class Fcfs {
         JPanel outputUI = new JPanel();
         outputUI.setLayout(new BorderLayout());
         
-        // test area
         output = new Output(schedule);
         
         outputUI.add(output.ganttChart(), BorderLayout.NORTH);
@@ -81,8 +80,6 @@ public class Fcfs {
         outputUI.setBackground(PANEL_COLOR);
         outputUI.setPreferredSize(PANEL_SIZE);
         
-//        bottomButton.backButton.addActionListener(e->{});
-
         return outputUI;
     }
 }

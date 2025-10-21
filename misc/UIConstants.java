@@ -22,4 +22,11 @@ public class UIConstants {
                         "Burst Time",
                         "Start Time",
                         "Waiting Time"}; 
+    public static final String[] TITLE_2 = {
+                        "Process", 
+                        "Arrival Time", 
+                        "Burst Time",
+                        "Completion Time",
+                        "Turnaround Time",
+                        "Waiting Time"}; 
 }

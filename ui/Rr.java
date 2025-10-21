@@ -4,12 +4,14 @@ import input.*;
 import java.awt.*;
 import javax.swing.*;
 import main.MainWindow;
-import misc.Title;
+import main.Scheduler;
 import static misc.UIConstants.*;
 
 
 public class Rr {
+    Scheduler schedule;
     MainWindow mainWindow;
+    Output output;
     ArrivalTimeInput arrivalTimeInput = new ArrivalTimeInput(); 
     BurstTimeInput burstTimeInput = new BurstTimeInput(); 
     TimeQuantumInput timeQuantumInput = new TimeQuantumInput();
@@ -18,6 +20,8 @@ public class Rr {
     private String[] burstTimeStr;
     private String[] timeQuantumStr;
     private int timeQuantum;
+    private int[] arrivalTime;
+    private int[] burstTime;
     
     public Rr(MainWindow mainWindow){
         this.mainWindow = mainWindow;
@@ -36,8 +40,8 @@ public class Rr {
             arrivalTimeStr = arrivalTimeInput.getArrivalTime();
             burstTimeStr = burstTimeInput.getBurstTime();
             timeQuantumStr = timeQuantumInput.getTimeQuantum();
-            int[] arrivalTime = new int[arrivalTimeStr.length];
-            int[] burstTime = new int[burstTimeStr.length];
+            arrivalTime = new int[arrivalTimeStr.length];
+            burstTime = new int[burstTimeStr.length];
             boolean isCorrectInput = true;
             
             if(arrivalTimeInput.isEmpty() || 
@@ -54,7 +58,7 @@ public class Rr {
                         arrivalTime[i] = Integer.parseInt(arrivalTimeStr[i]);
                         burstTime[i] = Integer.parseInt(burstTimeStr[i]);
                     } catch (NumberFormatException err) {
-                        JOptionPane.showMessageDialog(mainWindow, "Can't contain letter/s", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(mainWindow, "Invalid input!", "Error", JOptionPane.ERROR_MESSAGE);
                         isCorrectInput = false;
                         break;
                     }
@@ -63,23 +67,31 @@ public class Rr {
                 try {
                     timeQuantum = Integer.parseInt(timeQuantumStr[0]);
                 } catch (NumberFormatException err) {
-                    JOptionPane.showMessageDialog(mainWindow, "Can't contain letter/s TQ", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(mainWindow, "Invalid input!", "Error", JOptionPane.ERROR_MESSAGE);
                     isCorrectInput = false;
                 }
             }
-            if(isCorrectInput){ mainWindow.showWindow("rrOutput"); }
+            if(isCorrectInput){ 
+                schedule = new Scheduler(arrivalTime, burstTime, timeQuantum);
+                mainWindow.add(displayOutput(), "rrOutput");
+                mainWindow.showWindow("rrOutput"); 
+            }
         });
 
         return inputUI;
     }
 
     public JPanel displayOutput(){
+        BottomButton bottomButton = new BottomButton(mainWindow);
         JPanel outputUI = new JPanel();
-        GridBagConstraints gbc = new GridBagConstraints();
-        outputUI.setLayout(new GridLayout());
-
-        gbc.gridx=0; gbc.gridy=0;
-        outputUI.add(new Title("- RR -"), gbc);
+        outputUI.setLayout(new BorderLayout());
+        
+        output = new Output(schedule);
+        
+        outputUI.add(output.ganttChart2(), BorderLayout.NORTH);
+        outputUI.add(output.table2(TITLE_2), BorderLayout.CENTER);
+        outputUI.add(bottomButton, BorderLayout.SOUTH);
+        
         outputUI.setBackground(PANEL_COLOR);
         outputUI.setPreferredSize(PANEL_SIZE);
         return outputUI;

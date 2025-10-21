@@ -12,11 +12,11 @@ public class Table extends JPanel{
     JLabel name;
     public Table(String str){
         name = new JLabel(str);
-        name.setFont(new Font("Roboto", Font.BOLD, 14));
+        name.setFont(new Font("Roboto", Font.BOLD, 13));
         name.setHorizontalAlignment(JLabel.CENTER);
         name.setVerticalAlignment(JLabel.CENTER);
         setBorder(new LineBorder(Color.BLACK));
-        setPreferredSize(new Dimension(100, 40));
+        setPreferredSize(new Dimension(117, 45));
         setBackground(Color.white);
         setLayout(new BorderLayout());
         add(name, BorderLayout.CENTER);
